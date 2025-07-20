@@ -37,8 +37,8 @@ export const Footer = () => {
                       <img
                         alt="logo"
                         loading="lazy"
-                        width="60"
-                        height="60"
+                        width="40"
+                        height="50"
                         decoding="async"
                         data-nimg="1"
                         src="./images/logo.png"
