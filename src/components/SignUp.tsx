@@ -9,16 +9,12 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
   updateProfile,
-  getAuth,
   type User,
 } from "firebase/auth";
-import { app } from "../firebase/app";
+import { auth } from "../firebase/app";
 
-const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
 
 export const Account = ({
   param,
@@ -54,16 +50,17 @@ export const Account = ({
   };
 
   const handleUserSuccess = (user: User) => {
-    // Store user info in localStorage for persistence
     const userData = {
       email: user.email || "",
       username: user.displayName || username,
       userLoggedIn: true,
       uid: user.uid,
     };
+
+    // Save user data to localStorage
+    localStorage.setItem("userData", JSON.stringify(userData));
+
     console.log(userData);
-    // Note: localStorage is handled by the Firebase auth state listener in Navbar
-    // This ensures consistency across the app
 
     toast.success("Successfully logged in", {
       position: "top-right",
@@ -87,7 +84,6 @@ export const Account = ({
 
     try {
       if (action === "signUp") {
-        // Create account with Firebase
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -95,7 +91,6 @@ export const Account = ({
         );
         const user = userCredential.user;
 
-        // Update user profile with username
         await updateProfile(user, {
           displayName: username,
         });
@@ -110,10 +105,8 @@ export const Account = ({
           theme: "light",
         });
 
-        // Automatically log in the user after successful signup
         handleUserSuccess(user);
       } else {
-        // Sign in with Firebase
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
@@ -191,26 +184,6 @@ export const Account = ({
     }
   };
 
-  const handleFacebookSignIn = async () => {
-    setIsLoading(true);
-    try {
-      const result = await signInWithPopup(auth, facebookProvider);
-      handleUserSuccess(result.user);
-    } catch (error: any) {
-      toast.error(error.message || "Facebook sign-in failed", {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const switchMode = () => {
     setAction(action === "login" ? "signUp" : "login");
     setPassword("");
@@ -224,7 +197,7 @@ export const Account = ({
         <div className="w-3/5 max-lg:hidden">
           <div className="relative h-full">
             <img
-              src="/images/imgShuttStock.jpg"
+              src="./images/accountcreation.jpg"
               alt="Account illustration"
               className="object-cover rounded-l-lg w-full h-full"
             />
@@ -408,9 +381,8 @@ export const Account = ({
 
             <button
               type="button"
-              onClick={handleFacebookSignIn}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 bg-[#3b5998] text-white py-3 px-4 rounded-md hover:bg-[#2d4373] transition-colors disabled:opacity-50"
+              disabled
+              className="flex items-center justify-center gap-2 bg-gray-300 text-gray-500 py-3 px-4 rounded-md cursor-not-allowed"
             >
               <FaFacebook className="w-4 h-4" />
               <span className="text-sm">Facebook</span>

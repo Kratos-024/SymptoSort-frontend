@@ -12,14 +12,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute requireAuth={false}>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<HomePage />} />
 
           <Route
             path="/chat"
@@ -30,7 +23,6 @@ function App() {
             }
           />
 
-          {/* Catch all route - redirect to home */}
           <Route
             path="*"
             element={

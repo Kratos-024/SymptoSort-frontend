@@ -24,10 +24,8 @@ const UserMenu = ({
 }) => {
   return (
     <div className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border border-gray-200 py-2 w-64 z-50">
-      {/* User Info Section */}
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="flex items-center space-x-3">
-          {/* Profile Picture */}
           <div className="w-10 h-10 bg-[#1AB9F4] rounded-full flex items-center justify-center text-white font-semibold">
             {userData.username
               ? userData.username[0].toUpperCase()
@@ -42,7 +40,6 @@ const UserMenu = ({
         </div>
       </div>
 
-      {/* Menu Items */}
       <div className="py-1">
         <button
           onClick={onLogout}
@@ -61,7 +58,6 @@ const Navbar = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  // Check for stored user data on component mount
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
@@ -75,7 +71,6 @@ const Navbar = () => {
     }
   }, []);
 
-  // Listen for auth state changes
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -134,7 +129,6 @@ const Navbar = () => {
     }
   };
 
-  // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
@@ -179,10 +173,8 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Auth Buttons or User Menu - Right */}
             <div className="flex items-center space-x-3">
               {userData && userData.userLoggedIn ? (
-                // User is logged in - show user menu
                 <div className="relative user-menu-container">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
@@ -218,7 +210,6 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                // User is not logged in - show auth buttons
                 <>
                   <button
                     onClick={() => handleAuthClick("login")}
@@ -236,7 +227,6 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Mobile menu button */}
             <div className="md:hidden ml-3">
               <button className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 p-2">
                 <svg
@@ -257,7 +247,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
             <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
