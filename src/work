@@ -1,0 +1,29 @@
+WHAT IT DOES AND HOW IT IS HELPFUL?
+Overview
+medProject: Symptom Classification Medical Assistant
+This project is an interactive AI-powered assistant that helps users classify their medical symptoms for better healthcare triage. Built using Python, LangChain, and Google Gemini AI, the solution guides users to the proper medical channel—general, emergency, or mental health—based on their symptom input.
+
+What It Does
+User Interaction: Welcomes users and prompts them to enter their medical symptom in plain language.
+
+AI Symptom Classification: Uses a state-of-the-art AI (Google Gemini 1.5 Flash via LangChain) to automatically categorize symptoms as:
+
+General
+
+Emergency
+
+Mental Health
+
+Smart Routing: Directs users to the appropriate next step, whether that’s consulting a doctor, seeking immediate help, or connecting with a counselor.
+
+Streamlined Workflow: Automates symptom assessment, reducing wait times and improving the initial screening process in healthcare settings.
+
+How It Is Helpful
+Immediate Triage: Provides quick, AI-driven assessment to decide if a symptom is routine, urgent, or mental health-related, potentially saving critical response time.
+
+Accessible Support: Assists individuals in self-assessing before seeing a healthcare professional, making medical guidance more accessible.
+
+Reduces Burden on Front Desk: Helps healthcare providers and clinics automate initial patient triage, freeing staff to focus on higher-complexity cases.
+
+Beginner-Friendly Template: Offers a clear, simple workflow example for those learning Python, LangChain, and LLM integration in healthcare automation.
+
