@@ -7,7 +7,7 @@ const auth = getAuth(app);
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requireAuth?: boolean; // true for protected routes, false for public routes
+  requireAuth?: boolean;
 }
 
 const ProtectedRoute = ({
@@ -26,7 +26,6 @@ const ProtectedRoute = ({
     return () => unsubscribe();
   }, []);
 
-  // Show loading spinner while checking auth state
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -38,23 +37,15 @@ const ProtectedRoute = ({
     );
   }
 
-  // For protected routes (requireAuth = true)
   if (requireAuth) {
-    // If user is not authenticated, redirect to home page
     if (!user) {
       return <Navigate to="/" replace />;
     }
-    // If user is authenticated, show the protected content
     return <>{children}</>;
-  }
-
-  // For public routes (requireAuth = false)
-  else {
-    // If user is authenticated, redirect to chat page
+  } else {
     if (user) {
       return <Navigate to="/chat" replace />;
     }
-    // If user is not authenticated, show the public content
     return <>{children}</>;
   }
 };

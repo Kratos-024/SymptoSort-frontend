@@ -57,6 +57,7 @@ const Navbar = () => {
   const [authMode, setAuthMode] = useState<"login" | "signUp">("login");
   const [userData, setUserData] = useState<UserData | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -94,6 +95,7 @@ const Navbar = () => {
   const handleAuthClick = (mode: "login" | "signUp") => {
     setAuthMode(mode);
     setShowModal(true);
+    setShowMobileMenu(false);
   };
 
   const closeModal = (show: boolean) => {
@@ -105,6 +107,7 @@ const Navbar = () => {
       await signOut(auth);
       setUserData(null);
       setShowUserMenu(false);
+      setShowMobileMenu(false);
       localStorage.removeItem("userData");
 
       toast.success("Successfully logged out", {
@@ -127,6 +130,10 @@ const Navbar = () => {
         theme: "light",
       });
     }
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
   };
 
   useEffect(() => {
@@ -175,7 +182,7 @@ const Navbar = () => {
 
             <div className="flex items-center space-x-3">
               {userData && userData.userLoggedIn ? (
-                <div className="relative user-menu-container">
+                <div className="relative  max-md:hidden user-menu-container">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
@@ -228,7 +235,10 @@ const Navbar = () => {
             </div>
 
             <div className="md:hidden ml-3">
-              <button className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 p-2">
+              <button
+                onClick={toggleMobileMenu}
+                className="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 p-2"
+              >
                 <svg
                   className="h-6 w-6"
                   fill="none"
@@ -239,7 +249,11 @@ const Navbar = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
+                    d={
+                      showMobileMenu
+                        ? "M6 18L18 6M6 6l12 12"
+                        : "M4 6h16M4 12h16M4 18h16"
+                    }
                   />
                 </svg>
               </button>
@@ -247,65 +261,65 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
-            <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
-              Home
-            </span>
-            <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
-              About
-            </span>
-            <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
-              Services
-            </span>
-            <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
-              Contact
-            </span>
+        {showMobileMenu && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
+              <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
+                Home
+              </span>
+              <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
+                About
+              </span>
+              <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
+                Services
+              </span>
+              <span className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium cursor-pointer">
+                Contact
+              </span>
 
-            {/* Mobile Auth Buttons or User Info */}
-            {userData && userData.userLoggedIn ? (
-              <div className="px-3 pt-3 border-t border-gray-200">
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-8 h-8 bg-[#1AB9F4] rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                    {userData.username
-                      ? userData.username[0].toUpperCase()
-                      : userData.email[0].toUpperCase()}
+              {userData && userData.userLoggedIn ? (
+                <div className="px-3 pt-3 border-t border-gray-200">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-8 h-8 bg-[#1AB9F4] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {userData.username
+                        ? userData.username[0].toUpperCase()
+                        : userData.email[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {userData.username || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500">{userData.email}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      {userData.username || "User"}
-                    </p>
-                    <p className="text-xs text-gray-500">{userData.email}</p>
-                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition duration-200"
+                  >
+                    Sign out
+                  </button>
                 </div>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition duration-200"
-                >
-                  Sign out
-                </button>
-              </div>
-            ) : (
-              <div className="flex space-x-3 px-3 pt-3">
-                <button
-                  onClick={() => handleAuthClick("login")}
-                  className="flex-1 text-gray-700 hover:text-gray-900 border border-gray-300 hover:border-gray-400 font-medium py-2 px-4 rounded-md text-sm transition duration-200"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => handleAuthClick("signUp")}
-                  className="flex-1 bg-[#1AB9F4] hover:bg-[#0da6e0] text-white font-medium py-2 px-4 rounded-md text-sm transition duration-200"
-                >
-                  Sign Up
-                </button>
-              </div>
-            )}
+              ) : (
+                <div className="flex space-x-3 px-3 pt-3">
+                  <button
+                    onClick={() => handleAuthClick("login")}
+                    className="flex-1 text-gray-700 hover:text-gray-900 border border-gray-300 hover:border-gray-400 font-medium py-2 px-4 rounded-md text-sm transition duration-200"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => handleAuthClick("signUp")}
+                    className="flex-1 bg-[#1AB9F4] hover:bg-[#0da6e0] text-white font-medium py-2 px-4 rounded-md text-sm transition duration-200"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </nav>
 
-      {/* Account Modal */}
       {showModal && <Account param={authMode} showModalSignUp={closeModal} />}
     </>
   );

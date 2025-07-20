@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-
 import { HomePage } from "./pages/HomePage";
 import { ChatbotPage } from "./pages/ChatbotPage";
 import { ToastContainer } from "react-toastify";
