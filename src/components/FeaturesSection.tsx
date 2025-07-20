@@ -38,7 +38,7 @@ export const FeaturesSection = () => {
       ),
       title: "Instant Symptom Classification",
       description:
-        "Get categorized responses in seconds—General, Emergency, or Mental Health—with fast, helpful advice.",
+        "Get categorized responses in seconds—General, Emergency, or Mental Health—with ,speed up hospital registration form.",
     },
     {
       icon: (
