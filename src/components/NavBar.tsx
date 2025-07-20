@@ -217,7 +217,7 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <>
+                <div className=" max-md:hidden space-x-4">
                   <button
                     onClick={() => handleAuthClick("login")}
                     className="text-gray-700 hover:text-gray-900 border border-gray-300 hover:border-gray-400 font-medium py-2 px-4 rounded-md text-sm transition duration-200 ease-in-out transform hover:scale-105"
@@ -230,7 +230,7 @@ const Navbar = () => {
                   >
                     Sign Up
                   </button>
-                </>
+                </div>
               )}
             </div>
 
