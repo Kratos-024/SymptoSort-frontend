@@ -12,7 +12,7 @@ export const HeroSection = () => {
 
     try {
       const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-
+      localStorage.setItem("symptomInput", symptomInput);
       if (!userData.email) {
         toast.error("Please login to continue");
         return;

@@ -166,7 +166,7 @@ const Navbar = () => {
             <div className="hidden md:block">
               <div className="flex items-center space-x-8">
                 <span className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
-                  Home
+                  <a href="/"> Home</a>
                 </span>
                 <span className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium cursor-pointer">
                   About

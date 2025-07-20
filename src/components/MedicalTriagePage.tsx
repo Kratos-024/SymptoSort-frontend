@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Stethoscope,
   AlertCircle,
@@ -26,8 +26,10 @@ export default function MedicalTriagePage() {
   const [result, setResult] = useState<TriageResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async () => {
-    if (!symptom.trim()) {
+  const handleSubmit = async (symptomText?: string) => {
+    const textToAnalyze = symptomText || symptom;
+
+    if (!textToAnalyze.trim()) {
       alert("Please enter your symptom");
       return;
     }
@@ -37,7 +39,7 @@ export default function MedicalTriagePage() {
 
     try {
       const apiResponse: ClassifySymptomResponse = await classifySymptom(
-        symptom
+        textToAnalyze
       );
 
       const triageResult: TriageResult = {
@@ -59,6 +61,16 @@ export default function MedicalTriagePage() {
       setIsProcessing(false);
     }
   };
+
+  useEffect(() => {
+    const symptomStorage = localStorage.getItem("initialSymptom");
+
+    if (symptomStorage) {
+      setSymptom(symptomStorage);
+      handleSubmit(symptomStorage);
+      localStorage.removeItem("initialSymptom");
+    }
+  }, []);
 
   const getResultDisplay = (category: string) => {
     const lowerCategory = category.toLowerCase();
@@ -194,7 +206,7 @@ Powered by Agentic AI
                 )}
 
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit()}
                   disabled={isProcessing}
                   className="w-full cursor-pointer bg-gray-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
                 >
